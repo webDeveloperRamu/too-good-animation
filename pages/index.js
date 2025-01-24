@@ -2,8 +2,6 @@ import ReactLenis from "@studio-freight/react-lenis";
 import gsap from "gsap";
 import { useEffect, useRef } from "react";
 import ScrollTrigger from "gsap/ScrollTrigger";
-import Image from "next/image.js";
-import Link from "next/link";
 import Card from "./compontents/Card";
 gsap.registerPlugin(ScrollTrigger);
 
