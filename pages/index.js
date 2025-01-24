@@ -76,7 +76,7 @@ export default function Home() {
         </section>
         <section className="cards">
           {[...Array(4)].map((_, index) => (
-            <Card key={index} id={`card-${index + 1}`} ref={(el) => (cardsRef.current[index] = el)} cardImage="/assets/images/cards/card1.jpg" cardAlt={`Card ${index + 1}`} backText="Source Code <br/> <a style='font-size:16px;text-decoration:underline;color:blue;' href='https:/github.com/webDeveloperRamu'>github:webDeveloperRamu</a>" />))}
+            <Card key={index} id={`card-${index + 1}`} ref={(el) => (cardsRef.current[index] = el)} cardImage="/assets/images/cards/card1.jpg" cardAlt={`Card ${index + 1}`} backText="Source Code <br/> <a style='font-size:16px;text-decoration:underline;color:blue;' href='https://github.com/webDeveloperRamu/too-good-animation'>github:webDeveloperRamu</a>" />))}
         </section>
         <section className="footer">
           <h1>footer</h1>
