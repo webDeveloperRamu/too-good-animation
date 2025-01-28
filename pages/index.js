@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { useEffect, useRef } from "react";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import Card from "./compontents/Card";
+import Link from "next/link";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
@@ -68,16 +69,18 @@ export default function Home() {
 
   return (
     <ReactLenis root>
-      <div className="container" ref={container}>
+      <div className="main w-full h-full" ref={container}>
         <section>
           <h1 className="capitalize">scroll effect applied <br /> keep scrolling</h1>
+          <h2 className="text-[30px] font-semibold absolute left-1/2 top-1/3 transform -translate-x-1/2 -translate-y-1/2 capitalize">checkout to see the <Link href='/drawing-app' className="text-[#fff] underline underline-offset-8 decoration-4">Drawing App</Link>
+          </h2>
         </section>
         <section className="cards">
           {[...Array(4)].map((_, index) => (
             <Card key={index} id={`card-${index + 1}`} ref={(el) => (cardsRef.current[index] = el)} cardImage="/assets/images/cards/card1.jpg" cardAlt={`Card ${index + 1}`} backText="Source Code <br/> <a style='font-size:16px;text-decoration:underline;color:blue;' href='https:/github.com/webDeveloperRamu'>github:webDeveloperRamu</a>" />))}
         </section>
         <section className="footer">
-          <h1>footer</h1>
+          <h1>Explore more...</h1>
         </section>
       </div>
     </ReactLenis>
