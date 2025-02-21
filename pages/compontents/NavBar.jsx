@@ -1,83 +1,95 @@
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import navbarList from '../../constants/index'
-import MegaMenu from './MegaMenu'
+import styles from "@/styles/navbar.module.css"
+import gsap from 'gsap'
 
 const NavBar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
-
+    const [hoveredSubItem, setHoveredSubItem] = useState(0);
+    const animateRef = useRef(null);
+    const handleSubItemMouseEnter = (index) => {
+        setHoveredSubItem(index);
+        gsap.from(animateRef.current, { delay: 0.5, y: 20, opacity: 0, duration: 0.5, display: "block" });
+    };
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen)
     }
-
+    const handelAnimation = () => {
+        gsap.from(animateRef.current, { y: 20, opacity: 0, duration: 0.5 });
+    }
     return (
-        <div className='fixed top-2 z-10 left-0 right-0 xl:px-4 px-3 py-1 bg-white rounded-[10px] lg:h-[60px] h-auto flex items-center justify-between md:mx-5'>
-            {/* Brand and Logo */}
-            <Link href={"/"} className='flex items-center md:gap-2 gap-1'>
-                <img src="/assets/brandIcon.png" alt="Brand Image" className="md:w-12 md:h-10 h-8 w-8" />
-                <span className='text-[25px] font-[vardana] text-slate-700 font-extrabold'>Ramu</span>
-            </Link>
+        <div className={styles.navbar}>
+            <div className={styles.navbarContainer}>
+                <Link href="/" className={styles.brand}>
+                    <img src="/assets/brandIcon.png" alt="Brand Image" className={styles.brandIcon} />
+                    <span className={styles.brandName}>Ramu</span>
+                </Link>
+                <ul className={`${styles.navLinks} ${isMenuOpen ? 'open' : ''}`}>
+                    {navbarList.map((_, index) => (
+                        <li key={index} className={styles.navItem} >
+                            <span>{_.name}</span>
+                            {_.children && (
+                                <div className={`${styles.megaMenu}`} ref={animateRef} onMouseEnter={handelAnimation}>
+                                    {_.subTitle && (
+                                        <div className={styles.subMenu}>
+                                            <h3 className={styles.subTitle}>{_.subTitle}</h3>
+                                            {_.children.map((item, index) => (
+                                                <p
+                                                    key={index}
+                                                    onMouseEnter={() => handleSubItemMouseEnter(index)}
+                                                    className={styles.subItem}
+                                                // ref={animateRef}
+                                                >
+                                                    {item.name}
+                                                </p>
+                                            ))}
+                                        </div>
+                                    )}
 
-            {/* Navbar List (visible on large screens) */}
-            <ul className={`inline-flex xl:gap-5 gap-3 ${isMenuOpen ? 'flex absolute top-[100%] left-0 w-full min-h-screen duration-500' : 'hidden'} xl:flex`}>
-                {navbarList.map((_, index) => (
-                    <li key={index} className='group font-semibold cursor-pointer hover:underline hover:underline-offset-[6px] hover:decoration-4 hover:decoration-[#FF0000]'>
-                        <span>{_.name}</span>
-                        {_.children && (
-                            <MegaMenu children={_.children} />
+                                    <div className={`${styles.grid} ${_.subTitle ? styles.gridWithSub : styles.gridFull}`}>
+                                        {hoveredSubItem !== null && _.children[hoveredSubItem]?.subChildren ? (
+                                            _.children[hoveredSubItem].subChildren.map((item, index) => (
+                                                <Link href={item.href} key={index} className={`${index === 0 ? styles.firstItem : styles.item}`}>
+                                                    {item.name}
+                                                </Link>
+                                            ))
+                                        ) : (
+                                            _.children.map((item, index) => (
+                                                <Link href={item.href} key={index} className={styles.item}>
+                                                    {item.name}
+                                                </Link>
+                                            ))
+                                        )}
+                                        {_.btn &&
+                                            <div className={styles.hiddenDivider}></div>
+                                        }
+                                    </div>
+                                    {_.banner && (
+                                        <div className={styles.navItemBanner}>
+                                            <img src={_.banner} alt="Banner" />
+                                        </div>
+                                    )}
+
+                                </div>)}
+                        </li>
+                    ))}
+                </ul>
+                <div className={styles.navRight}>
+                    <Link href="#" className={styles.navButton}>Request call</Link>
+                    <Link href="#" className={styles.navButton}>My account</Link>
+                    <div className={styles.menuToggle} onClick={toggleMenu}>
+                        {isMenuOpen ? (
+                            <svg className={styles.menuIcon} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L17.94 6M18 18L6.06 6" />
+                            </svg>
+                        ) : (
+                            <svg className={styles.menuIcon} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
                         )}
-                    </li>
-                ))}
-            </ul>
-
-            {/* Right section (Request call & My account) */}
-            <div className="md:inline-flex md:gap-5 gap-1 grid grid-cols-2">
-                <Link href={"#"} className='bg-transparent hover:bg-purple-100 border text-[blue] rounded-full md:px-5 md:py-2 px-2 py-1'>
-                    Request call
-                </Link>
-                <Link href={"#"} className='bg-transparent hover:bg-purple-100 border text-[blue] rounded-full md:px-5 md:py-2 px-2 py-1'>
-                    My account
-                </Link>
-            </div>
-
-            {/* Mobile Hamburger Menu (toggle with state) */}
-            <div className="xl:hidden flex items-center cursor-pointer" onClick={toggleMenu}>
-                {isMenuOpen ? (
-                    // Close (X) Icon
-                    <svg
-                        className="w-6 h-6 text-gray-800 dark:text-white transition-transform duration-300"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M6 18L17.94 6M18 18L6.06 6"
-                        />
-                    </svg>
-                ) : (
-                    // Hamburger Icon
-                    <svg
-                        className="w-6 h-6 text-gray-800 dark:text-white transition-transform duration-300"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                    >
-                        <path 
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M4 6h16M4 12h16M4 18h16"
-                        />
-                    </svg>
-                )}
+                    </div>
+                </div>
             </div>
         </div>
     )

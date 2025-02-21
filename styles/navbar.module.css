@@ -1,0 +1,172 @@
+.navbar {
+    position: fixed;
+    top: 20px;
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 10px;
+    padding: 10px 20px;
+    margin: auto 35px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbarContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.brandIcon {
+    width: 40px;
+    height: 40px;
+}
+
+.brandName {
+    font-size: 24px;
+    font-family: Verdana, sans-serif;
+    font-weight: bold;
+    color: #4a4a4a;
+    margin-left: 10px;
+}
+
+.navLinks {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    position: relative;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+/* .navItem {
+} */
+
+.navItem:hover {
+    text-decoration: 4px underline red;
+}
+
+/* Right section */
+.navRight {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.navButton {
+    text-decoration: none;
+    padding: 8px 15px;
+    border: 1px solid blue;
+    border-radius: 30px;
+    color: blue;
+    transition: all 0.3s ease;
+}
+
+.navButton:hover {
+    background: rgba(128, 0, 128, 0.1);
+}
+
+/* Mobile menu toggle */
+.menuToggle {
+    display: none;
+    cursor: pointer;
+}
+
+.menuIcon {
+    width: 24px;
+    height: 24px;
+    stroke: #4a4a4a;
+    stroke-width: 2;
+}
+
+@media (max-width: 1024px) {
+    .navLinks {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: white;
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .navLinks.open {
+        display: flex;
+    }
+
+    .menuToggle {
+        display: block;
+    }
+}
+
+.megaMenu {
+    position: absolute;
+    border: solid;
+    top: 100%;
+    width:max-content;
+    display: none;
+    background: white;
+
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navItem:hover .megaMenu {
+    display: flex;
+}
+
+.subMenu {
+    width: 25%;
+    background: #e7e5e4;
+    padding: 8px 12px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.subTitle {
+    color: #000;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* Grid Layout */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(100px, 1fr));
+    gap: 10px;
+    padding: 15px;
+    background: white;
+}
+
+.gridWithSub {
+    width: 75%;
+}
+
+.gridFull {
+    width: 100%;
+}
+
+/* Links */
+.item {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    text-decoration: none;
+    padding: 5px 10px;
+    transition: color 0.3s ease;
+}
+
+
+.hiddenDivider {
+    grid-column: span 2;
+    height: 2px;
+    background: #ccc;
+    display: none;
+}
